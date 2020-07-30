@@ -4,7 +4,7 @@ This repository contains the R-Code related to the paper submitted to the Intern
 	"Regional now- and forecasting for data reported with delay:
 	A case study in COVID-19 infections"
 
-Authors of the manuscript: Giacomo de Nicola, Marc Schneble, Göran Kauermann, Ursula Berger
+Authors of the manuscript: Giacomo De Nicola, Marc Schneble, Göran Kauermann, Ursula Berger
 
 Responsible for the R-code: Giacomo De Nicola and Marc Schneble
 
