@@ -13,11 +13,7 @@ Sys.setlocale("LC_ALL","English")
 path.LRZ = "C:/Users/ru58paj/LRZ Sync+Share/Corona/"                     # Marc
 #path.LRZ = "C:/Users/ru48fak/LRZ Sync+Share/Corona (Marc Schneble)/"   # Giacomo
 
-
-# load all functions 
-source("Functions/Preprocessing.R")
-source("Functions/Cases.R")
-source("Functions/Diagnostics.R")
+source("Functions.R")
 
 # load packages
 library(tidyverse)
@@ -45,18 +41,15 @@ AR.d <- TRUE
 AR.t <- TRUE
 
 # fitting the model
-model <- fit.case.model.new(doa, T.max, d.max, recent, AR.d, AR.t)
-
-# plot maps
-plot.effects.cases(doa)
-
-# plot time effect
-plot.time.effect(doa)
+model <- fit.model(doa, T.max, d.max, recent, AR.d, AR.t)
 
 # plot predictions with prediction intervals
 (g.nowcast <- plot.predictions(model, d.max = 7, k = 7, type = "nowcast", n = 100))
 (g.forecast <- plot.predictions(model,  d.max = 7, k = 7, type = "forecast", n = 100))
 (g.forenowcasts <- plot.predictions(model, d.max = 7, k = 7, type = "forenowcast", n = 100))
 
-# R functions to be included in the repository
-#
+# create all other plots
+source("Plots.R")
+
+
+
