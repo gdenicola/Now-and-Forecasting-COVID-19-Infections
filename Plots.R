@@ -7,9 +7,9 @@ district_borders = read_rds(paste0(path.LRZ, "Data/Maps/district_borders.Rds"))
 state_borders = read_rds(paste0(path.LRZ, "Data/Maps/state_borders.Rds"))
 
 # get desired models
-files <- list.files(path= paste0(path.LRZ, "Output/cases"))
+files <- list.files(path= paste0(path.LRZ, "Output"))
 file <- files[grep(paste(doa), files)]
-model <- read_rds(paste0(path.LRZ, "Output/cases/", file))  
+model <- read_rds(paste0(path.LRZ, "Output/", file))  
 
 # initilaize table with district effects
 districts <- preprocess.districts()
@@ -47,7 +47,7 @@ for (j in 1:nrow(district.effects)) {
     }
   }
   ind = which(min(distance[which(!is.na(fitted.matrix)) ]) == distance, arr.ind = TRUE)
-  district.effects$m_2[j] = fitted.matrix[ind]
+  district.effects$s_2[j] = fitted.matrix[ind]
 }
 
 # Matching of effects with dataset that contains the district borders
@@ -61,10 +61,10 @@ pointers.spatial <- data.frame(name = c("North-Rhine \nWestphalia", "Berlin"), s
                                endpoint.lat = c(districts$lat[110], districts$lat[325]))
 
 # plot spatial effect
-directory <- paste0(path.LRZ, "Plots/cases/SpatialEffect/")
+directory <- paste0(path.LRZ, "Plots/SpatialEffect")
 png(file = paste0(directory, "/", doa, ".png"), 
     width = 1300, height = 1550, units = "px")
-print(plot.map(data, type = "s_2", limits = range(district.effects$m_2), 
+print(plot.map(data, type = "s_2", limits = range(district.effects$s_2), 
                date = doa, state_borders = state_borders, 
                plot_title = "Estimates of smooth spatial effect",
                legend_title = expression(widehat(s)[2](s[r])),
@@ -76,7 +76,7 @@ dev.off()
 
 
 # plot long term random intercept 
-directory <- paste0(path.LRZ, "Plots/cases/RandomInterceptLong/")
+directory <- paste0(path.LRZ, "Plots/RandomInterceptLong")
 png(file = paste0(directory, "/", doa, ".png"), 
     width = 1300, height = 1550, units = "px")
 print(plot.map(data, type = "u_r0", limits = range(district.effects$u_r0), 
@@ -91,7 +91,7 @@ pointers.shortterm <- data.frame(name = "Gütersloh", startpoint.lon = 6.7, star
                                  endpoint.lon = districts$lon[99], endpoint.lat = districts$lat[99])
 
 # plot short term random intercept
-directory <- paste0(path.LRZ, "Plots/cases/RandomInterceptShort/")
+directory <- paste0(path.LRZ, "Plots/RandomInterceptShort")
 png(file = paste0(directory, "/", doa, ".png"), 
     width = 1300, height = 1550, units = "px")
 print(plot.map(data, type = "u_r1", limits = range(district.effects$u_r1), 
@@ -109,9 +109,9 @@ theme_set(theme_bw() + theme(panel.grid = element_blank(),
                              plot.title = element_text(hjust = 0.5)))
 
 # get the required model objects
-files <- list.files(path= paste0(path.LRZ, "Output/cases"))
+files <- list.files(path= paste0(path.LRZ, "Output"))
 file <- files[grep(as.character(doa), files)]
-model <- read_rds(paste0(path.LRZ, "Output/cases/", file))  
+model <- read_rds(paste0(path.LRZ, "Output/", file))  
 
 # data frame for plotting
 x <- plot.gam(model, select = 0)[[1]]$x
@@ -127,7 +127,7 @@ boundaries <- data.frame(x = x,
                          upper = df$y + se)
 
 
-pdf(file = paste0(path.LRZ, "Plots/cases/TimeEffect/", doa, ".pdf"), 
+pdf(file = paste0(path.LRZ, "Plots/TimeEffect/", doa, ".pdf"), 
     width = 6, height = 4) 
 g <- ggplot(df, aes(x = x)) + geom_line(aes(y = y)) + 
   geom_ribbon(data = boundaries, aes(ymin = lower, ymax = upper), alpha = 0.3) +
@@ -168,6 +168,7 @@ preds.forenowcast = arrange(preds.forenowcast,pop,districtId)
 
 #####NOWCAST PLOT#######
 #absolute relative error 
+
 e = ggplot(data=preds.nowcast,aes(x=1:412,y=abs_rel_err,label=name.x)) + 
   geom_abline(intercept = 0, slope =  0, col = "grey60", linetype = "dashed", size = 1.2) +
   geom_point(size=2) +
@@ -184,7 +185,9 @@ e = ggplot(data=preds.nowcast,aes(x=1:412,y=abs_rel_err,label=name.x)) +
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank())
 
+pdf(file = paste0(path.LRZ, "Plots/Residuals/Nowcast/", doa, ".pdf"), width = 16, height = 9)
 print(e)
+dev.off()
 
 
 #####FORECAST PLOT#######
@@ -204,7 +207,9 @@ i = ggplot(data=preds.forecast,aes(x=1:412,y=abs_rel_err,label=name.x)) +
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank())
 
+pdf(file = paste0(path.LRZ, "Plots/Residuals/Forecast/", doa, ".pdf"), width = 16, height = 9)
 print(i)
+dev.off()
 
 
 #####FORENOWCAST PLOT#######
@@ -226,7 +231,9 @@ a = ggplot(data=preds.forenowcast,aes(x=1:412,y=abs_rel_err,label=name.x)) +
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank())
 
+pdf(file = paste0(path.LRZ, "Plots/Residuals/Forenowcast/", doa, ".pdf"), width = 16, height = 9)
 print(a)
+dev.off()
 
 
 
@@ -294,7 +301,7 @@ coefs = vector()
 ses = vector()
 
 for (i in 1:length(doa_vector)) {
-  model <- fit.case.model.new(doa_vector[i],
+  model <- fit.model(doa_vector[i],
                               T.max, d.max, recent, 
                               AR.d = TRUE, 
                               AR.t = TRUE)
@@ -334,6 +341,8 @@ coef_intervals$dates = as.Date(rownames(coef_intervals))
 
 #one can save progress up to here to spare time
 #saveRDS(coef_intervals, paste0(path.LRZ, "coef_intervals.Rds"))
+ncoef = 21
+names=names(coef_intervals[1:21])
 
 
 #plot estimated delay effect over time in same plot
@@ -358,7 +367,7 @@ delays_long_lower <- pivot_longer(cbind(coef_intervals[44:59],date = coef_interv
 delays_long$upper = delays_long_upper$upper
 delays_long$lower =delays_long_lower$lower
 
-pdf(file = paste0(path.LRZ, "Plots/cases/Coefficients over time/delay.pdf"), width = 8.3, height = 5)
+pdf(file = paste0(path.LRZ, "Plots/CoefficientsTemporal/delay.pdf"), width = 8.3, height = 5)
 ggplot(delays_long, aes(x = date, y = coef, 
                         col = delay)) +
   scale_y_continuous(limits = c(min(delays_long$lower), max(delays_long$upper + 0.7))) +
@@ -403,7 +412,7 @@ weekdays_long_lower <- pivot_longer(cbind(coef_intervals[50:55],date = coef_inte
 weekdays_long$upper = weekdays_long_upper$upper
 weekdays_long$lower = weekdays_long_lower$lower
 
-pdf(file = paste0(path.LRZ, "Plots/cases/Coefficients over time/weekday.pdf"), width = 8.3, height = 5)
+pdf(file = paste0(path.LRZ, "Plots/CoefficientsTemporal/weekday.pdf"), width = 8.3, height = 5)
 ggplot(weekdays_long, aes(x = date, y = coef, 
                           col = weekday)) +
   geom_abline(intercept = 0, slope =  0, col = "grey40", linetype = "dashed", size = 1.2) +    
@@ -449,7 +458,7 @@ agegroups_long_lower <- pivot_longer(cbind(coef_intervals[56:60],date = coef_int
 agegroups_long$upper = agegroups_long_upper$upper
 agegroups_long$lower = agegroups_long_lower$lower
 
-pdf(file = paste0(path.LRZ, "Plots/cases/Coefficients over time/Agegroup.pdf"), width = 8.3, height = 5)
+pdf(file = paste0(path.LRZ, "Plots/CoefficientsTemporal/Agegroup.pdf"), width = 8.3, height = 5)
 ggplot(agegroups_long, aes(x = date, y = coef, 
                            col = agegroup)) +
   geom_abline(intercept = 0, slope =  0, col = "grey40", linetype = "dashed", size = 1.2) +    
@@ -491,7 +500,7 @@ ars_long_lower <- pivot_longer(cbind(coef_intervals[62:63],date = coef_intervals
 ars_long$upper = ars_long_upper$upper
 ars_long$lower =ars_long_lower$lower
 
-pdf(file = paste0(path.LRZ, "Plots/cases/Coefficients over time/ar_component.pdf"), width = 8.3, height = 5)
+pdf(file = paste0(path.LRZ, "Plots/CoefficientsTemporal/ar_component.pdf"), width = 8.3, height = 5)
 ggplot(ars_long, aes(x = date, y = coef, 
                      col = `AR component`)) +
   geom_abline(intercept = 0, slope =  0, col = "grey40", linetype = "dashed", size = 1.2) +    
@@ -514,7 +523,7 @@ dev.off()
 
 #intercept over time
 coef_intervals = mutate(coef_intervals,coefficient = "intercept")
-pdf(file = paste0(path.LRZ, "Plots/cases/Coefficients over time/intercept.pdf"), width = 8.3, height = 5)
+pdf(file = paste0(path.LRZ, "Plots/CoefficientsTemporal/intercept.pdf"), width = 8.3, height = 5)
 ggplot(data = coef_intervals, aes(dates,coef_intervals[,1],fill=coefficient)) +
   geom_point(col="navyblue") + 
   geom_line(col="navyblue") +
@@ -532,7 +541,7 @@ dev.off()
 coef_intervals=mutate(coef_intervals,gender="female")
 
 #gender over time
-pdf(file = paste0(path.LRZ, "Plots/cases/Coefficients over time/gender.pdf"), width = 8.3, height = 5)
+pdf(file = paste0(path.LRZ, "Plots/CoefficientsTemporal/gender.pdf"), width = 8.3, height = 5)
 ggplot(data = coef_intervals, aes(dates,coef_intervals[,19],fill=gender)) +
   geom_abline(intercept = 0, slope =  0, col = "grey40", linetype = "dashed", size = 1.2) +    
   geom_point(col="firebrick4") + 
@@ -550,5 +559,3 @@ ggplot(data = coef_intervals, aes(dates,coef_intervals[,19],fill=gender)) +
   scale_color_hue(labels = c("Female")) +
   scale_fill_hue(labels = c("Female")) 
 dev.off()
-
-

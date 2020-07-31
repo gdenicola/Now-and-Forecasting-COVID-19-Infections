@@ -290,7 +290,7 @@ fit.model = function(doa, T.max, d.max, recent, AR.d, AR.t){
   model$d.max <- d.max
   
   
-  saveRDS(model, paste0(path.LRZ, "Output/cases/", doa, ".Rds"))
+  saveRDS(model, paste0(path.LRZ, "Output/", doa, ".Rds"))
   
   return(model)
 }
@@ -546,6 +546,8 @@ predict.cases <- function(model, k){
 }  
 
 prediction.intervals <- function(model, k, n, alpha = 0.1){
+  
+  set.seed(19)
   
   # district data
   districts <- preprocess.districts()
@@ -807,7 +809,7 @@ plot.predictions <- function(model, k = 7, d.max = 7, type = "nowcast", n = 1000
                                            as.character(model$doa), " to ", as.character(model$doa + days(6)),
                                            "\nModel includes registration dates from ", min(model$registration.dates), " until ", max(model$registration.dates)))
   
-  pdf(file = paste0(path.LRZ, "Plots/cases/", type, "/", doa, ".pdf")) 
+  pdf(file = paste0(path.LRZ, "Plots/", type, "VsObserved/", doa, ".pdf")) 
   g <- ggplot(data = districts, aes(observed.per.100k, !!sym(paste0(type, ".per.100k")))) +
     geom_abline(intercept = 0, slope =  1, col = "grey60", linetype = "dashed", size = 1.2) +    
     geom_errorbar(data = districts, col = "grey20", aes(x = observed.per.100k, ymin = lower.per.100k, ymax = upper.per.100k), width = 0.7, alpha = 0.7) +

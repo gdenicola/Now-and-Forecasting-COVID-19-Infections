@@ -10,7 +10,7 @@ Sys.setlocale("LC_ALL","English")
 # path to the sync and share folder - 
 # replace your own path here!!!
 # this path always needs to be saved in the global environment
-path.LRZ = "C:/Users/ru58paj/LRZ Sync+Share/Corona/"                     # Marc
+path.LRZ = "C:/Users/ru58paj/LRZ Sync+Share/Now-and-Forecasting-COVID-19-Cases (Giacomo De Nicola)/"                     # Marc
 #path.LRZ = "C:/Users/ru48fak/LRZ Sync+Share/Corona (Marc Schneble)/"   # Giacomo
 
 source("Functions.R")
