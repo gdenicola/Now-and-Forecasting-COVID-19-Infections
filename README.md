@@ -1,8 +1,8 @@
 # Now-and-Forecasting-COVID-19-Infections
 
-This repository contains the R-Code related to the paper submitted to the International Journal of Forecasting: 
+This repository contains the R-Code related to the paper:
 	"Regional now- and forecasting for data reported with delay:
-	A case study in COVID-19 infections"
+	Towards surveillance of COVID-19 infections"
 
 Authors of the manuscript: Giacomo De Nicola, Marc Schneble, Göran Kauermann, Ursula Berger
 
