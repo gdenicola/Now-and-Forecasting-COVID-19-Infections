@@ -55,24 +55,16 @@ loaded via a namespace (and not attached):
 
 In order to reproduce our analyses the following folder 
 
-Link: https://syncandshare.lrz.de/getlink/fi7u5WzqBV4GN5YKu1KKKvdZ/, 
+Link: https://syncandshare.lrz.de/getlink/fiLKxS9y1HYPTsZjy1y9MBDz/ 
 
 hosted at the Leibniz-Rechenzentrum (LRZ), needs to be downloaded as it is and saved locally. 
 It contains the data required to fit the models and consists of the following subfolders:
 
-1) Data (itself grouped into the following subfolders)
-
-	RKI: Raw RKI data daily downloaded from 
+	- RKI: Raw (zipped) RKI data daily downloaded from 
 		Link: https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74
-	Formatted: Preprocessed and formatted RKI data since March 27, 2020
-	Maps: Boundaries of districts and states of Germany
-	Demographic: Population statistics and coordinates of districts
-
-2) Output: All R model objects are stored here by default. The model objects of the quasi-Poisson model
-	are already stored here but can be reproduced by sourcing the main file.
-
-3) Plots: All plots produced are stored here by default. 
-
+	- Formatted: Preprocessed and formatted RKI data since April 2020
+	- Maps: Boundaries of districts and states of Germany
+	- Demographic: Population statistics and coordinates of districts
 
 The R-Code is broken down into the following sub-files:
 
