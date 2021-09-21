@@ -73,6 +73,10 @@ It contains the data required to fit the models and consists of the following su
 
 3) Plots: All plots produced are stored here by default. 
 
+4) Model Selection Plots: A separate file for the plots related to model selection.
+
+5) Extras: Additional output and computations are stored here.
+
 
 The R-Code is broken down into the following sub-files:
 
