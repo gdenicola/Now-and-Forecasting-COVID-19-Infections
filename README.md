@@ -73,14 +73,10 @@ It contains the data required to fit the models and consists of the following su
 
 3) Plots: All plots produced are stored here by default. 
 
-4) Model Selection Plots: A separate file for the plots related to model selection.
-
-5) Extras: Additional output and computations are stored here.
-
 
 The R-Code is broken down into the following sub-files:
 
-MainCovid19Cases.R: This is the main file. Running this file produces all the results presented in the paper. 
+Main.R: This is the main file. Running this file produces all the results presented in the paper. 
 	The only thing that needs to be adjusted by every user is the variable ``path.LRZ``. 
 	Here, every user needs to specify his/her specific absolute path to the LRZ folder described above.
 
@@ -92,3 +88,7 @@ Preprocessing.R: The first two functions are only used when a new data set from 
 Functions.R: This file contains all the modeling. 
 
 Plots.R: This file contains all the functions that are used for plotting the results. 
+
+Model Selection Plots.R: A separate file for producing the plots related to model selection.
+
+Extras: File to produce some additional output and computations.
