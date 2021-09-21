@@ -60,11 +60,14 @@ Link: https://syncandshare.lrz.de/getlink/fiLKxS9y1HYPTsZjy1y9MBDz/
 hosted at the Leibniz-Rechenzentrum (LRZ), needs to be downloaded as it is and saved locally. 
 It contains the data required to fit the models and consists of the following subfolders:
 
-	- RKI: Raw (zipped) RKI data daily downloaded from 
-		Link: https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74
-	- Formatted: Preprocessed and formatted RKI data since April 2020
-	- Maps: Boundaries of districts and states of Germany
-	- Demographic: Population statistics and coordinates of districts
+RKI: Raw (zipped) RKI data daily downloaded from 
+	Link: https://www.arcgis.com/home/item.html?id=f10774f1c63e40168479a1feb6c7ca74
+	
+Formatted: Preprocessed and formatted RKI data since April 2020
+
+Maps: Boundaries of districts and states of Germany
+
+Demographic: Population statistics and coordinates of districts
 
 The R-Code is broken down into the following sub-files:
 
