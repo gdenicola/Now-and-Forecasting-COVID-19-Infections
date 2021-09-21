@@ -77,7 +77,7 @@ Preprocessing.R: The first two functions are only used when a new data set from 
 	used inside other functions and provides information on the gender/age specific population sizes
 	in each district and coordinates of the centroids of each district.
 
-Functions.R: This file contains all the modeling. 
+Functions.R: This file contains all the modeling and predicting. 
 
 Plots.R: This file contains all the functions that are used for plotting the results. 
 
