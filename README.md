@@ -69,6 +69,8 @@ Maps: Boundaries of districts and states of Germany
 
 Demographic: Population statistics and coordinates of districts
 
+Prediction Errors: Output of our analysis to be used directly for model selection
+
 The R-Code is broken down into the following sub-files:
 
 Main.R: This is the main file. Running this file produces all the results presented in the paper. 
